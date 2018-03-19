@@ -1,4 +1,20 @@
-" ##### Basic setup ###### {{{
+" ##### Configure Plugins #####
+" Configure fzf
+"set rtp+=/usr/local/opt/fzf
+
+" Configure Vundle
+"set nocompatible
+"filetype off
+"set rtp+=~/.vim/bundle/Vundle.vim
+"call vundle#begin()
+"Plugin 'VundleVim/Vundle.vim'
+"call vundle#end()
+"filetype plugin indent on
+
+" Configure Rust settings
+"Plugin 'rust-lang/rust.vim'
+
+" ##### Basic setup ###### 
 set number
 colorscheme peachpuff
 syntax on
@@ -9,7 +25,6 @@ set shiftwidth=4
 set autoindent
 set smartindent
 set noerrorbells
-set nocompatible
 set showmode
 set vb  t_vb=
 set showcmd
@@ -22,9 +37,9 @@ set statusline+=\ %m
 set statusline+=%=
 set statusline+=Current:\ %-4l
 set statusline+=Total:\ %-4L
-" }}}
+set hlsearch incsearch
 
-" ###### Mappings ###### {{{
+" ###### Mappings ###### 
 let mapleader = "-"
 let maplocalleader = "\\"
 " Map alt+d in insert mode to delete line
@@ -42,19 +57,12 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 
 " localleader + " adds quotes to word
 inoremap jk <esc>
-" Commented out 
-"inoremap <esc> <nop>
-"inoremap <Up> <nop>
-"inoremap <Left> <nop>
-"inoremap <Right> <nop>
-"inoremap <Down> <nop>
-"nnoremap <Up> <nop>
-"nnoremap <Left> <nop>
-"nnoremap <Down> <nop>
-"nnoremap <Right> <nop>
-" }}}
 
-" ##### Typo corrections ##### {{{
+" Remove syntax search highlighting
+nnoremap <space><space> :noh<cr>
+" 
+
+" ##### Typo corrections ##### 
 iabbrev waht what
 iabbrev tehn then
 iabbrev adn and
@@ -62,9 +70,9 @@ iabbrev teh the
 iabbrev hte the
 iabbrev taht that
 iabbrev htat that
-" }}}
+" 
 
-" Create comment shortcuts {{{
+" Create comment shortcuts 
 augroup comments
     autocmd!
     " Single line comments
@@ -74,35 +82,69 @@ augroup comments
     autocmd FileType python     nnoremap <buffer> <localleader>c I#<esc>
     autocmd FileType tex nnoremap <buffer> <localleader>c I%<esc>
     autocmd FileType vim nnoremap <buffer> <localleader>c I"<esc>
+    autocmd FileType rust nnoremap <buffer> <localleader>c I//<esc>
+    autocmd FileType c nnoremap <buffer> <localleader>c I//<esc>
+    autocmd FileType cpp nnoremap <buffer> <localleader>c I//<esc>
+    autocmd FileType m nnoremap <buffer> <localleader>c I%<esc>
     " block comments: s - start; e - end
     autocmd FileType java nnoremap <buffer> <localleader>s I/*<esc>
     autocmd FileType java nnoremap <buffer> <localleader>e A*/<esc>
     autocmd FileType python nnoremap <buffer> <localleader>s I"""<esc>
     autocmd FileType python nnoremap <buffer> <localleader>e A"""<esc>
+    autocmd FileType rust nnoremap <buffer> <localleader>e I/*<esc>
+    autocmd FileType rust nnoremap <buffer> <localleader>e A*/<esc>
+    autocmd FileType c nnoremap <buffer> <localleader>e I/*<esc>
+    autocmd FileType c nnoremap <buffer> <localleader>e A*/<esc>
+    autocmd FileType cpp nnoremap <buffer> <localleader>e I/*<esc>
+    autocmd FileType cpp nnoremap <buffer> <localleader>e A*/<esc>
 augroup END
-" }}}
+" 
 
 " ##### Begin file configurations #####
 
-" html config {{{
+" html config 
 augroup filetype_html
     autocmd!
     autocmd FileType html nnoremap <buffer> <localleader>f Vatzf
 augroup END
-" }}}
+" 
 
-" vim config  {{{
+" vim config  
 augroup filetype_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
 augroup END
-" }}}
+" 
 
-" latex config {{{
+" latex config 
 augroup filetype_latex
     autocmd!
     " put \begin{} \end{} tags tags around the current word
     map  <C-B>      YpkI\begin{<ESC>A}<ESC>jI\end{<ESC>A}<esc>kA
     map! <C-B> <ESC>YpkI\begin{<ESC>A}<ESC>jI\end{<ESC>A}<esc>kA
 augroup END
-" }}}
+" 
+
+augroup filetype_java
+    autocmd!
+    " Insert ; at end of line
+    nnoremap <C-T> <ESC>mqA;<ESC>`q
+    inoremap <C-T> <ESC>mqA;<ESC>`qa
+    inoremap {<CR>  {<CR>}<Esc>O
+augroup END
+
+augroup filetype_go
+    autocmd!
+    inoremap {<CR>  {<CR>}<Esc>O
+augroup END
+
+augroup filetype_c
+    autocmd!
+    inoremap {<CR>  {<CR>}<Esc>O
+augroup END
+
+augroup filetype_rust
+    autocmd!
+    inoremap {<CR>  {<CR>}<Esc>O
+
+augroup END
